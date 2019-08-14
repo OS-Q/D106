@@ -1,7 +1,7 @@
 {
-  "name":"LCD",
-  "description":"LCD",
-  "keywords":"LCD",
+  "name":"RGB",
+  "description":"RGB",
+  "keywords":"RGB",
   "version": "1.0.0",
   "authors": {
     "name":  "qitas",
