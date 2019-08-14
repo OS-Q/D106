@@ -1,7 +1,7 @@
 // NeoPixel test program showing use of the WHITE channel for RGBW
 // pixels only (won't look correct on regular RGB NeoPixel strips).
 
-#include <Adafruit_NeoPixel.h>
+#include <RGB.h>
 #ifdef __AVR__
  #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
 #endif
@@ -17,7 +17,7 @@
 #define BRIGHTNESS 50
 
 // Declare our NeoPixel strip object:
-Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRBW + NEO_KHZ800);
+RGB strip(LED_COUNT, LED_PIN, NEO_GRBW + NEO_KHZ800);
 // Argument 1 = Number of pixels in NeoPixel strip
 // Argument 2 = Arduino pin number (most are valid)
 // Argument 3 = Pixel type flags, add together as needed:

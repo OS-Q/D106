@@ -1,11 +1,11 @@
 // NeoPixel Ring simple sketch (c) 2013 Shae Erisson
 // Released under the GPLv3 license to match the rest of the
 // Adafruit NeoPixel library
-// This sketch shows use of the "new" operator with Adafruit_NeoPixel.
+// This sketch shows use of the "new" operator with RGB.
 // It's helpful if you don't know NeoPixel settings at compile time or
 // just want to store this settings in EEPROM or a file on an SD card.
 
-#include <Adafruit_NeoPixel.h>
+#include <RGB.h>
 #ifdef __AVR__
  #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
 #endif
@@ -22,7 +22,7 @@ int pixelFormat = NEO_GRB + NEO_KHZ800;
 
 // Rather than declaring the whole NeoPixel object here, we just create
 // a pointer for one, which we'll then allocate later...
-Adafruit_NeoPixel *pixels;
+RGB *pixels;
 
 #define DELAYVAL 500 // Time (in milliseconds) to pause between pixels
 
@@ -40,7 +40,7 @@ void setup() {
   // values at the top of this code -- but this is where it would happen.
 
   // Then create a new NeoPixel object dynamically with these values:
-  pixels = new Adafruit_NeoPixel(numPixels, pin, pixelFormat);
+  pixels = new RGB(numPixels, pin, pixelFormat);
 
   // Going forward from here, code works almost identically to any other
   // NeoPixel example, but instead of the dot operator on function calls
