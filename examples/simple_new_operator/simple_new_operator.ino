@@ -4,7 +4,7 @@
 int pin         =  5; // On Trinket or Gemma, suggest changing this to 1
 
 // How many NeoPixels are attached to the Arduino?
-int numPixels   = 12; // Popular NeoPixel ring size
+int numPixels   = 120; // Popular NeoPixel ring size
 
 // NeoPixel color format & data rate. See the strandtest example for
 // information on possible values.
