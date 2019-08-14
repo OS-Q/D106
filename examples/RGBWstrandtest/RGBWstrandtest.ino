@@ -1,14 +1,7 @@
-// NeoPixel test program showing use of the WHITE channel for RGBW
-// pixels only (won't look correct on regular RGB NeoPixel strips).
-
 #include <RGB.h>
-#ifdef __AVR__
- #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
-#endif
-
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1:
-#define LED_PIN     6
+#define LED_PIN     5
 
 // How many NeoPixels are attached to the Arduino?
 #define LED_COUNT  60
