@@ -6,7 +6,7 @@ char index_html[] PROGMEM = R"=====(
   <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
   <meta name='viewport' content='width=device-width' />
 
-  <title>WS2812FX Ctrl</title>
+  <title>WS2812FX</title>
 
   <script type='text/javascript' src='main.js'></script>
 
@@ -71,7 +71,7 @@ char index_html[] PROGMEM = R"=====(
   </style>
 </head>
 <body>
-  <h1>WS2812FX Control</h1>
+  //<h1>WS2812FX</h1>
   <canvas id='colorbar' width='75' height='1080'></canvas>
   <div id='controls'>
     <ul id='mode'></ul>
@@ -94,4 +94,3 @@ char index_html[] PROGMEM = R"=====(
 </body>
 </html>
 )=====";
-

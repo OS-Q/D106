@@ -15,7 +15,6 @@ extern const char main_js[];
   IPAddress subnet(255,255,255,0);
 #endif
 
-// QUICKFIX...See https://github.com/esp8266/Arduino/issues/263
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
 
@@ -48,7 +47,7 @@ void setup(){
   modes.reserve(5000);
   modes_setup();
 
-  Serial.println("WS2812FX setup");
+  Serial.println("WS2812FX");
   ws2812fx.init();
   ws2812fx.setMode(DEFAULT_MODE);
   ws2812fx.setColor(DEFAULT_COLOR);

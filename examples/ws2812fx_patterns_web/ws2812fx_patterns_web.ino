@@ -1,41 +1,3 @@
-/*
-  This sketch introduces the idea of patterns.
-  A pattern is a collection of segments. Each pattern plays for a specific
-  duration and you can setup an array of patterns that play in a continuous loop.
-  A web API is included which receives and stores pattern data in JSON format.
-  It's the companion sketch for the LEDfx Android app available in the Google Play
-  app store: https://play.google.com/store/apps/details?id=com.champlainsystems.ledfx
-
-  Keith Lord - 2018
-
-  LICENSE
-
-  The MIT License (MIT)
-
-  Copyright (c) 2018  Keith Lord
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sub-license, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  THE SOFTWARE.
-
-  CHANGELOG
-  2018-02-21 initial version
-  2018-11-30 added custom aux functions and OTA update
-*/
 
 #include <WS2812FX.h>
 #include <ESP8266WebServer.h>
@@ -45,11 +7,11 @@
 
 #define VERSION "2.1.0"
 
-uint8_t  dataPin = D1; // default digital pin used to drive the LED strip
-uint16_t numLeds = 30; // default number of LEDs on the strip
+uint8_t  dataPin = 5; // default digital pin used to drive the LED strip
+uint16_t numLeds = 24; // default number of LEDs on the strip
 
-#define WIFI_SSID "xxxxxxxx"     // WiFi network
-#define WIFI_PASSWORD "xxxxxxxx" // WiFi network password
+#define WIFI_SSID "ziroom3303"     // WiFi network
+#define WIFI_PASSWORD "4001001111" // WiFi network password
 #define HTTP_PORT 80
 
 #define MAX_NUM_PATTERNS 8

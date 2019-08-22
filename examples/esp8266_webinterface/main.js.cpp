@@ -55,7 +55,6 @@ function Click(e) {
   submitVal('c', compToHex(rgb[0]) + compToHex(rgb[1]) + compToHex(rgb[2]));
 }
 
-// Thanks to the backup at http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
 function rgbToHsl(r, g, b){
   r = r / 255;
   g = g / 255;
@@ -118,4 +117,3 @@ function setup(){
   can.addEventListener('click', Click, false);
 }
 )=====";
-
