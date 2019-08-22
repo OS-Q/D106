@@ -3,8 +3,8 @@
 
 // The ESP32's RMT hardware supports up to 8 channels, so it
 // can drive up to 8 independent WS2812FX instances. We'll use 2.
-WS2812FX ws2812fx1 = WS2812FX(144, 12, NEO_GRB  + NEO_KHZ800); // 144 RGB LEDs driven by GPIO_12
-WS2812FX ws2812fx2 = WS2812FX( 60, 13, NEO_GRBW + NEO_KHZ800); //  60 RGBW LEDs driven by GPIO_13
+WS2812FX ws2812fx1 = WS2812FX(24, 5, NEO_GRB  + NEO_KHZ800); // 144 RGB LEDs driven by GPIO_12
+WS2812FX ws2812fx2 = WS2812FX(60, 13, NEO_GRBW + NEO_KHZ800); //  60 RGBW LEDs driven by GPIO_13
 
 void setup() {
   Serial.begin(115200);
