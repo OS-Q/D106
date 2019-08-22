@@ -2,7 +2,7 @@
 
 void WS2812FX::init() {
   resetSegmentRuntimes();
-  RGB::begin();
+  NeoPixel::begin();
 }
 
 // void WS2812FX::timer() {
@@ -42,31 +42,31 @@ void WS2812FX::setPixelColor(uint16_t n, uint32_t c) {
     uint8_t r = (c >> 16) & 0xFF;
     uint8_t g = (c >>  8) & 0xFF;
     uint8_t b =  c        & 0xFF;
-    RGB::setPixelColor(n, gamma8(r), gamma8(g), gamma8(b), gamma8(w));
+    NeoPixel::setPixelColor(n, gamma8(r), gamma8(g), gamma8(b), gamma8(w));
   } else {
-    RGB::setPixelColor(n, c);
+    NeoPixel::setPixelColor(n, c);
   }
 }
 
 void WS2812FX::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b) {
   if(IS_GAMMA) {
-    RGB::setPixelColor(n, gamma8(r), gamma8(g), gamma8(b));
+    NeoPixel::setPixelColor(n, gamma8(r), gamma8(g), gamma8(b));
   } else {
-    RGB::setPixelColor(n, r, g, b);
+    NeoPixel::setPixelColor(n, r, g, b);
   }
 }
 
 void WS2812FX::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
   if(IS_GAMMA) {
-    RGB::setPixelColor(n, gamma8(r), gamma8(g), gamma8(b), gamma8(w));
+    NeoPixel::setPixelColor(n, gamma8(r), gamma8(g), gamma8(b), gamma8(w));
   } else {
-    RGB::setPixelColor(n, r, g, b, w);
+    NeoPixel::setPixelColor(n, r, g, b, w);
   }
 }
 
 void WS2812FX::copyPixels(uint16_t dest, uint16_t src, uint16_t count) {
   uint8_t *pixels = getPixels();
-  uint8_t bytesPerPixel = getNumBytesPerPixel(); // 3=RGB, 4=RGBW
+  uint8_t bytesPerPixel = getNumBytesPerPixel(); // 3=NeoPixel, 4=RGBW
 
   memmove(pixels + (dest * bytesPerPixel), pixels + (src * bytesPerPixel), count * bytesPerPixel);
 }
@@ -74,7 +74,7 @@ void WS2812FX::copyPixels(uint16_t dest, uint16_t src, uint16_t count) {
 // overload show() functions so we can use custom show()
 void WS2812FX::show(void) {
   if(customShow == NULL) {
-    RGB::show();
+    NeoPixel::show();
   } else {
     customShow();
   }
@@ -160,7 +160,7 @@ void WS2812FX::setColors(uint8_t seg, uint32_t* c) {
 
 void WS2812FX::setBrightness(uint8_t b) {
   b = constrain(b, BRIGHTNESS_MIN, BRIGHTNESS_MAX);
-  RGB::setBrightness(b);
+  NeoPixel::setBrightness(b);
   show();
 }
 
@@ -180,12 +180,12 @@ void WS2812FX::setLength(uint16_t b) {
 
   // Decrease numLEDs to maximum available memory
   do {
-      RGB::updateLength(b);
+      NeoPixel::updateLength(b);
       b--;
-  } while(!RGB::numLEDs && b > 1);
+  } while(!NeoPixel::numLEDs && b > 1);
 
   _segments[0].start = 0;
-  _segments[0].stop = RGB::numLEDs - 1;
+  _segments[0].stop = NeoPixel::numLEDs - 1;
 }
 
 void WS2812FX::increaseLength(uint16_t s) {
@@ -259,7 +259,7 @@ uint16_t WS2812FX::getNumBytes(void) {
 }
 
 uint8_t WS2812FX::getNumBytesPerPixel(void) {
-  return (wOffset == rOffset) ? 3 : 4; // 3=RGB, 4=RGBW
+  return (wOffset == rOffset) ? 3 : 4; // 3=NeoPixel, 4=RGBW
 }
 
 uint8_t WS2812FX::getModeCount(void) {
@@ -373,7 +373,7 @@ void WS2812FX::resetSegmentRuntime(uint8_t seg) {
  * Turns everything off. Doh.
  */
 void WS2812FX::strip_off() {
-  RGB::clear();
+  NeoPixel::clear();
   show();
 }
 
@@ -460,7 +460,7 @@ uint32_t* WS2812FX::intensitySums() {
   memset(intensities, 0, sizeof(intensities));
 
   uint8_t *pixels = getPixels();
-  uint8_t bytesPerPixel = getNumBytesPerPixel(); // 3=RGB, 4=RGBW
+  uint8_t bytesPerPixel = getNumBytesPerPixel(); // 3=NeoPixel, 4=RGBW
   for(uint16_t i=0; i <numBytes; i += bytesPerPixel) {
     intensities[0] += pixels[i];
     intensities[1] += pixels[i + 1];
@@ -1363,7 +1363,7 @@ uint16_t WS2812FX::fireworks(uint32_t color) {
 
 // for better performance, manipulate the RGBs pixels[] array directly
   uint8_t *pixels = getPixels();
-  uint8_t bytesPerPixel = getNumBytesPerPixel(); // 3=RGB, 4=RGBW
+  uint8_t bytesPerPixel = getNumBytesPerPixel(); // 3=NeoPixel, 4=RGBW
   uint16_t startPixel = SEGMENT.start * bytesPerPixel + bytesPerPixel;
   uint16_t stopPixel = SEGMENT.stop * bytesPerPixel ;
   for(uint16_t i=startPixel; i <stopPixel; i++) {

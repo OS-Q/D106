@@ -268,7 +268,7 @@ static const __FlashStringHelper* _names[] = {
   FSH(name_59)
 };
 
-class WS2812FX : public RGB {
+class WS2812FX : public NeoPixel {
 
   typedef uint16_t (WS2812FX::*mode_ptr)(void);
   
@@ -293,7 +293,7 @@ class WS2812FX : public RGB {
       uint16_t aux_param3; // auxilary param (usually stores a segment index)
     } segment_runtime;
 
-    WS2812FX(uint16_t n, uint8_t p, neoPixelType t) : RGB(n, p, t) {
+    WS2812FX(uint16_t n, uint8_t p, neoPixelType t) : NeoPixel(n, p, t) {
       _mode[FX_MODE_STATIC]                  = &WS2812FX::mode_static;
       _mode[FX_MODE_BLINK]                   = &WS2812FX::mode_blink;
       _mode[FX_MODE_COLOR_WIPE]              = &WS2812FX::mode_color_wipe;
@@ -363,7 +363,7 @@ class WS2812FX : public RGB {
       _mode[FX_MODE_CUSTOM_2]                = &WS2812FX::mode_custom_2;
       _mode[FX_MODE_CUSTOM_3]                = &WS2812FX::mode_custom_3;
 
-      brightness = DEFAULT_BRIGHTNESS + 1; // RGB internally offsets brightness by 1
+      brightness = DEFAULT_BRIGHTNESS + 1; // NeoPixel internally offsets brightness by 1
       _running = false;
       _num_segments = 1;
       _segments[0].mode = DEFAULT_MODE;

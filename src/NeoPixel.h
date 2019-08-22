@@ -16,7 +16,7 @@
 
 // The order of primary colors in the NeoPixel data stream can vary among
 // device types, manufacturers and even different revisions of the same
-// item.  The third parameter to the RGB constructor encodes
+// item.  The third parameter to the NeoPixel constructor encodes
 // the per-pixel byte offsets of the red, green and blue primaries (plus
 // white, if present) in the data stream -- the following #defines provide
 // an easier-to-use named version for each permutation. e.g. NEO_GRB
@@ -34,12 +34,12 @@
 // offset and 1,0 are the blue offset.  If it is an RGBW-type device
 // (supporting a white primary in addition to R,G,B), bits 7,6 are the
 // offset to the white byte...otherwise, bits 7,6 are set to the same value
-// as 5,4 (red) to indicate an RGB (not RGBW) device.
+// as 5,4 (red) to indicate an NeoPixel (not RGBW) device.
 // i.e. binary representation:
 // 0bWWRRGGBB for RGBW devices
-// 0bRRRRGGBB for RGB
+// 0bRRRRGGBB for NeoPixel
 
-// RGB NeoPixel permutations; white and red offsets are always same
+// NeoPixel NeoPixel permutations; white and red offsets are always same
 // Offset:         W        R        G        B
 #define NEO_RGB  ((0<<6) | (0<<4) | (1<<2) | (2)) ///< Transmit as R,G,B
 #define NEO_RBG  ((0<<6) | (0<<4) | (2<<2) | (1)) ///< Transmit as R,B,G
@@ -97,12 +97,12 @@
 // is sufficient to encode pixel color order, saving some space.
 
 #ifdef NEO_KHZ400
-typedef uint16_t neoPixelType; ///< 3rd arg to RGB constructor
+typedef uint16_t neoPixelType; ///< 3rd arg to NeoPixel constructor
 #else
-typedef uint8_t  neoPixelType; ///< 3rd arg to RGB constructor
+typedef uint8_t  neoPixelType; ///< 3rd arg to NeoPixel constructor
 #endif
 
-// These two tables are declared outside the RGB class
+// These two tables are declared outside the NeoPixel class
 // because some boards may require oldschool compilers that don't
 // handle the C++11 constexpr keyword.
 
@@ -161,15 +161,15 @@ static const uint8_t PROGMEM _NeoPixelGammaTable[256] = {
     @brief  Class that stores state and functions for interacting with
             Adafruit NeoPixels and compatible devices.
 */
-class RGB {
+class NeoPixel {
 
  public:
 
   // Constructor: number of LEDs, pin number, LED type
-  RGB(uint16_t n, uint16_t pin=6,
+  NeoPixel(uint16_t n, uint16_t pin=6,
     neoPixelType type=NEO_GRB + NEO_KHZ800);
-  RGB(void);
-  ~RGB();
+  NeoPixel(void);
+  ~NeoPixel();
 
   void              begin(void);
   void              show(void);
@@ -219,7 +219,7 @@ class RGB {
   */
   int16_t           getPin(void) const { return pin; };
   /*!
-    @brief   Return the number of pixels in an RGB strip object.
+    @brief   Return the number of pixels in an NeoPixel strip object.
     @return  Pixel count (0 if not set).
   */
   uint16_t          numPixels(void) const { return numLEDs; }
@@ -255,13 +255,13 @@ class RGB {
   }
   /*!
     @brief   Convert separate red, green and blue values into a single
-             "packed" 32-bit RGB color.
+             "packed" 32-bit NeoPixel color.
     @param   r  Red brightness, 0 to 255.
     @param   g  Green brightness, 0 to 255.
     @param   b  Blue brightness, 0 to 255.
-    @return  32-bit packed RGB value, which can then be assigned to a
+    @return  32-bit packed NeoPixel value, which can then be assigned to a
              variable for later use or passed to the setPixelColor()
-             function. Packed RGB format is predictable, regardless of
+             function. Packed NeoPixel format is predictable, regardless of
              LED strand color order.
   */
   static uint32_t   Color(uint8_t r, uint8_t g, uint8_t b) {
@@ -284,10 +284,10 @@ class RGB {
   }
   static uint32_t   ColorHSV(uint16_t hue, uint8_t sat=255, uint8_t val=255);
   /*!
-    @brief   A gamma-correction function for 32-bit packed RGB or WRGB
+    @brief   A gamma-correction function for 32-bit packed NeoPixel or WRGB
              colors. Makes color transitions appear more perceptially
              correct.
-    @param   x  32-bit packed RGB or WRGB color.
+    @param   x  32-bit packed NeoPixel or WRGB color.
     @return  Gamma-adjusted packed color, can then be passed in one of the
              setPixelColor() functions. Like gamma8(), this uses a fixed
              gamma correction exponent of 2.6, which seems reasonably okay
@@ -303,7 +303,7 @@ class RGB {
   boolean           is800KHz;   ///< true if 800 KHz pixels
 #endif
   boolean           begun;      ///< true if begin() previously called
-  uint16_t          numLEDs;    ///< Number of RGB LEDs in strip
+  uint16_t          numLEDs;    ///< Number of NeoPixel LEDs in strip
   uint16_t          numBytes;   ///< Size of 'pixels' buffer below
   int16_t           pin;        ///< Output pin number (-1 if not yet set)
   uint8_t           brightness; ///< Strip brightness 0-255 (stored as +1)

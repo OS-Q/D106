@@ -18,13 +18,13 @@
   @param   n  Number of NeoPixels in strand.
   @param   p  Arduino pin number which will drive the NeoPixel data in.
   @param   t  Pixel type -- add together NEO_* constants defined in
-              RGB.h, for example NEO_GRB+NEO_KHZ800 for
+              NeoPixel.h, for example NEO_GRB+NEO_KHZ800 for
               NeoPixels expecting an 800 KHz (vs 400 KHz) data stream
               with color bytes expressed in green, red, blue order per
               pixel.
-  @return  RGB object. Call the begin() function before use.
+  @return  NeoPixel object. Call the begin() function before use.
 */
-RGB::RGB(uint16_t n, uint16_t p, neoPixelType t) :
+NeoPixel::NeoPixel(uint16_t n, uint16_t p, neoPixelType t) :
   begun(false), brightness(0), pixels(NULL), endTime(0) {
   updateType(t);
   updateLength(n);
@@ -35,13 +35,13 @@ RGB::RGB(uint16_t n, uint16_t p, neoPixelType t) :
   @brief   "Empty" NeoPixel constructor when length, pin and/or pixel type
            are not known at compile-time, and must be initialized later with
            updateType(), updateLength() and setPin().
-  @return  RGB object. Call the begin() function before use.
+  @return  NeoPixel object. Call the begin() function before use.
   @note    This function is deprecated, here only for old projects that
            may still be calling it. New projects should instead use the
            'new' keyword with the first constructor syntax (length, pin,
            type).
 */
-RGB::RGB() :
+NeoPixel::NeoPixel() :
 #ifdef NEO_KHZ400
   is800KHz(true),
 #endif
@@ -50,9 +50,9 @@ RGB::RGB() :
 }
 
 /*!
-  @brief   Deallocate RGB object, set data pin back to INPUT.
+  @brief   Deallocate NeoPixel object, set data pin back to INPUT.
 */
-RGB::~RGB() {
+NeoPixel::~NeoPixel() {
   free(pixels);
   if(pin >= 0) pinMode(pin, INPUT);
 }
@@ -60,7 +60,7 @@ RGB::~RGB() {
 /*!
   @brief   Configure NeoPixel pin for output.
 */
-void RGB::begin(void) {
+void NeoPixel::begin(void) {
   if(pin >= 0) {
     pinMode(pin, OUTPUT);
     digitalWrite(pin, LOW);
@@ -69,7 +69,7 @@ void RGB::begin(void) {
 }
 
 /*!
-  @brief   Change the length of a previously-declared RGB
+  @brief   Change the length of a previously-declared NeoPixel
            strip object. Old data is deallocated and new data is cleared.
            Pin number and pixel format are unchanged.
   @param   n  New length of strip, in pixels.
@@ -78,7 +78,7 @@ void RGB::begin(void) {
            'new' keyword with the first constructor syntax (length, pin,
            type).
 */
-void RGB::updateLength(uint16_t n) {
+void NeoPixel::updateLength(uint16_t n) {
   free(pixels); // Free existing data (if any)
 
   // Allocate new data -- note: ALL PIXELS ARE CLEARED
@@ -93,13 +93,13 @@ void RGB::updateLength(uint16_t n) {
 
 /*!
   @brief   Change the pixel format of a previously-declared
-           RGB strip object. If format changes from one of
-           the RGB variants to an RGBW variant (or RGBW to RGB), the old
+           NeoPixel strip object. If format changes from one of
+           the NeoPixel variants to an RGBW variant (or RGBW to NeoPixel), the old
            data will be deallocated and new data is cleared. Otherwise,
            the old data will remain in RAM and is not reordered to the
            new format, so it's advisable to follow up with clear().
   @param   t  Pixel type -- add together NEO_* constants defined in
-              RGB.h, for example NEO_GRB+NEO_KHZ800 for
+              NeoPixel.h, for example NEO_GRB+NEO_KHZ800 for
               NeoPixels expecting an 800 KHz (vs 400 KHz) data stream
               with color bytes expressed in green, red, blue order per
               pixel.
@@ -108,7 +108,7 @@ void RGB::updateLength(uint16_t n) {
            'new' keyword with the first constructor syntax
            (length, pin, type).
 */
-void RGB::updateType(neoPixelType t) {
+void NeoPixel::updateType(neoPixelType t) {
   boolean oldThreeBytesPerPixel = (wOffset == rOffset); // false if RGBW
 
   wOffset = (t >> 6) & 0b11; // See notes in header file
@@ -142,12 +142,12 @@ extern "C" void espShow(
            order to achieve the correct NeoPixel signal timing. This means
            that the Arduino millis() and micros() functions, which require
            interrupts, will lose small intervals of time whenever this
-           function is called (about 30 microseconds per RGB pixel, 40 for
+           function is called (about 30 microseconds per NeoPixel pixel, 40 for
            RGBW pixels). There's no easy fix for this, but a few
            specialized alternative or companion libraries exist that use
            very device-specific peripherals to work around it.
 */
-void RGB::show(void) {
+void NeoPixel::show(void) {
 
   if(!pixels) return;
 
@@ -1296,7 +1296,7 @@ void RGB::show(void) {
 // EasyDMA feature included on the chip. This technique loads the duty
 // cycle configuration for each cycle when the PWM is enabled. For this
 // to work we need to store a 16 bit configuration for each bit of the
-// RGB(W) values in the pixel buffer.
+// NeoPixel(W) values in the pixel buffer.
 // Comparator values for the PWM were hand picked and are guaranteed to
 // be 100% organic to preserve freshness and high accuracy. Current
 // parameters are:
@@ -2117,7 +2117,7 @@ void RGB::show(void) {
            if any, is set to INPUT and the new pin is set to OUTPUT.
   @param   p  Arduino pin number (-1 = no pin).
 */
-void RGB::setPin(uint16_t p) {
+void NeoPixel::setPin(uint16_t p) {
   if(begun && (pin >= 0)) pinMode(pin, INPUT);
     pin = p;
     if(begun) {
@@ -2138,7 +2138,7 @@ void RGB::setPin(uint16_t p) {
   @param   g  Green brightness, 0 = minimum (off), 255 = maximum.
   @param   b  Blue brightness, 0 = minimum (off), 255 = maximum.
 */
-void RGB::setPixelColor(
+void NeoPixel::setPixelColor(
  uint16_t n, uint8_t r, uint8_t g, uint8_t b) {
 
   if(n < numLEDs) {
@@ -2148,7 +2148,7 @@ void RGB::setPixelColor(
       b = (b * brightness) >> 8;
     }
     uint8_t *p;
-    if(wOffset == rOffset) { // Is an RGB-type strip
+    if(wOffset == rOffset) { // Is an NeoPixel-type strip
       p = &pixels[n * 3];    // 3 bytes per pixel
     } else {                 // Is a WRGB-type strip
       p = &pixels[n * 4];    // 4 bytes per pixel
@@ -2168,9 +2168,9 @@ void RGB::setPixelColor(
   @param   g  Green brightness, 0 = minimum (off), 255 = maximum.
   @param   b  Blue brightness, 0 = minimum (off), 255 = maximum.
   @param   w  White brightness, 0 = minimum (off), 255 = maximum, ignored
-              if using RGB pixels.
+              if using NeoPixel pixels.
 */
-void RGB::setPixelColor(
+void NeoPixel::setPixelColor(
  uint16_t n, uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
 
   if(n < numLEDs) {
@@ -2181,7 +2181,7 @@ void RGB::setPixelColor(
       w = (w * brightness) >> 8;
     }
     uint8_t *p;
-    if(wOffset == rOffset) { // Is an RGB-type strip
+    if(wOffset == rOffset) { // Is an NeoPixel-type strip
       p = &pixels[n * 3];    // 3 bytes per pixel (ignore W)
     } else {                 // Is a WRGB-type strip
       p = &pixels[n * 4];    // 4 bytes per pixel
@@ -2194,13 +2194,13 @@ void RGB::setPixelColor(
 }
 
 /*!
-  @brief   Set a pixel's color using a 32-bit 'packed' RGB or RGBW value.
+  @brief   Set a pixel's color using a 32-bit 'packed' NeoPixel or RGBW value.
   @param   n  Pixel index, starting from 0.
   @param   c  32-bit color value. Most significant byte is white (for RGBW
-              pixels) or ignored (for RGB pixels), next is red, then green,
+              pixels) or ignored (for NeoPixel pixels), next is red, then green,
               and least significant byte is blue.
 */
-void RGB::setPixelColor(uint16_t n, uint32_t c) {
+void NeoPixel::setPixelColor(uint16_t n, uint32_t c) {
   if(n < numLEDs) {
     uint8_t *p,
       r = (uint8_t)(c >> 16),
@@ -2227,7 +2227,7 @@ void RGB::setPixelColor(uint16_t n, uint32_t c) {
 /*!
   @brief   Fill all or part of the NeoPixel strip with a color.
   @param   c      32-bit color value. Most significant byte is white (for
-                  RGBW pixels) or ignored (for RGB pixels), next is red,
+                  RGBW pixels) or ignored (for NeoPixel pixels), next is red,
                   then green, and least significant byte is blue. If all
                   arguments are unspecified, this will be 0 (off).
   @param   first  Index of first pixel to fill, starting from 0. Must be
@@ -2235,7 +2235,7 @@ void RGB::setPixelColor(uint16_t n, uint32_t c) {
   @param   count  Number of pixels to fill, as a positive value. Passing
                   0 or leaving unspecified will fill to end of strip.
 */
-void RGB::fill(uint32_t c, uint16_t first, uint16_t count) {
+void NeoPixel::fill(uint32_t c, uint16_t first, uint16_t count) {
   uint16_t i, end;
 
   if(first >= numLEDs) {
@@ -2258,8 +2258,8 @@ void RGB::fill(uint32_t c, uint16_t first, uint16_t count) {
 }
 
 /*!
-  @brief   Convert hue, saturation and value into a packed 32-bit RGB color
-           that can be passed to setPixelColor() or other RGB-compatible
+  @brief   Convert hue, saturation and value into a packed 32-bit NeoPixel color
+           that can be passed to setPixelColor() or other NeoPixel-compatible
            functions.
   @param   hue  An unsigned 16-bit value, 0 to 65535, representing one full
                 loop of the color wheel, which allows 16-bit hues to "roll
@@ -2270,7 +2270,7 @@ void RGB::fill(uint32_t c, uint16_t first, uint16_t count) {
                 (max or pure hue). Default of 255 if unspecified.
   @param   val  Value (brightness), 8-bit value, 0 (min / black / off) to
                 255 (max or full brightness). Default of 255 if unspecified.
-  @return  Packed 32-bit RGB with the most significant byte set to 0 -- the
+  @return  Packed 32-bit NeoPixel with the most significant byte set to 0 -- the
            white element of WRGB pixels is NOT utilized. Result is linearly
            but not perceptually correct, so you may want to pass the result
            through the gamma32() function (or your own gamma-correction
@@ -2280,14 +2280,14 @@ void RGB::fill(uint32_t c, uint16_t first, uint16_t count) {
            one-size-fits-all operation of gamma32(). Diffusing the LEDs also
            really seems to help when using low-saturation colors.
 */
-uint32_t RGB::ColorHSV(uint16_t hue, uint8_t sat, uint8_t val) {
+uint32_t NeoPixel::ColorHSV(uint16_t hue, uint8_t sat, uint8_t val) {
 
   uint8_t r, g, b;
 
   // Remap 0-65535 to 0-1529. Pure red is CENTERED on the 64K rollover;
   // 0 is not the start of pure red, but the midpoint...a few values above
   // zero and a few below 65536 all yield pure red (similarly, 32768 is the
-  // midpoint, not start, of pure cyan). The 8-bit RGB hexcone (256 values
+  // midpoint, not start, of pure cyan). The 8-bit NeoPixel hexcone (256 values
   // each for red, green, blue) really only allows for 1530 distinct hues
   // (not 1536, more on that below), but the full unsigned 16-bit type was
   // chosen for hue so that one's code can easily handle a contiguous color
@@ -2359,20 +2359,20 @@ uint32_t RGB::ColorHSV(uint16_t hue, uint8_t sat, uint8_t val) {
 /*!
   @brief   Query the color of a previously-set pixel.
   @param   n  Index of pixel to read (0 = first).
-  @return  'Packed' 32-bit RGB or WRGB value. Most significant byte is white
-           (for RGBW pixels) or 0 (for RGB pixels), next is red, then green,
+  @return  'Packed' 32-bit NeoPixel or WRGB value. Most significant byte is white
+           (for RGBW pixels) or 0 (for NeoPixel pixels), next is red, then green,
            and least significant byte is blue.
   @note    If the strip brightness has been changed from the default value
            of 255, the color read from a pixel may not exactly match what
            was previously written with one of the setPixelColor() functions.
            This gets more pronounced at lower brightness levels.
 */
-uint32_t RGB::getPixelColor(uint16_t n) const {
+uint32_t NeoPixel::getPixelColor(uint16_t n) const {
   if(n >= numLEDs) return 0; // Out of bounds, return no color.
 
   uint8_t *p;
 
-  if(wOffset == rOffset) { // Is RGB-type device
+  if(wOffset == rOffset) { // Is NeoPixel-type device
     p = &pixels[n * 3];
     if(brightness) {
       // Stored color was decimated by setBrightness(). Returned value
@@ -2421,7 +2421,7 @@ uint32_t RGB::getPixelColor(uint16_t n) const {
            write-only resource, maintaining their own state to render each
            frame of an animation, not relying on read-modify-write.
 */
-void RGB::setBrightness(uint8_t b) {
+void NeoPixel::setBrightness(uint8_t b) {
   // Stored brightness value is different than what's passed.
   // This simplifies the actual scaling math later, allowing a fast
   // 8x8-bit multiply and taking the MSB. 'brightness' is a uint8_t,
@@ -2459,28 +2459,28 @@ void RGB::setBrightness(uint8_t b) {
   @brief   Retrieve the last-set brightness value for the strip.
   @return  Brightness value: 0 = minimum (off), 255 = maximum.
 */
-uint8_t RGB::getBrightness(void) const {
+uint8_t NeoPixel::getBrightness(void) const {
   return brightness - 1;
 }
 
 /*!
   @brief   Fill the whole NeoPixel strip with 0 / black / off.
 */
-void RGB::clear(void) {
+void NeoPixel::clear(void) {
   memset(pixels, 0, numBytes);
 }
 
 // A 32-bit variant of gamma8() that applies the same function
-// to all components of a packed RGB or WRGB value.
-uint32_t RGB::gamma32(uint32_t x) {
+// to all components of a packed NeoPixel or WRGB value.
+uint32_t NeoPixel::gamma32(uint32_t x) {
   uint8_t *y = (uint8_t *)&x;
-  // All four bytes of a 32-bit value are filtered even if RGB (not WRGB),
+  // All four bytes of a 32-bit value are filtered even if NeoPixel (not WRGB),
   // to avoid a bunch of shifting and masking that would be necessary for
   // properly handling different endianisms (and each byte is a fairly
   // trivial operation, so it might not even be wasting cycles vs a check
-  // and branch for the RGB case). In theory this might cause trouble *if*
+  // and branch for the NeoPixel case). In theory this might cause trouble *if*
   // someone's storing information in the unused most significant byte
-  // of an RGB value, but this seems exceedingly rare and if it's
+  // of an NeoPixel value, but this seems exceedingly rare and if it's
   // encountered in reality they can mask values going in or coming out.
   for(uint8_t i=0; i<4; i++) y[i] = gamma8(y[i]);
   return x; // Packed 32-bit return

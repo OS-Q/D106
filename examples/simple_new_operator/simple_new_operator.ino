@@ -1,10 +1,14 @@
-#include <RGB.h>
+#include <NeoPixel.h>
+
+#ifdef __AVR__
+ #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
+#endif
 
 // Which pin on the Arduino is connected to the NeoPixels?
 int pin         =  5; // On Trinket or Gemma, suggest changing this to 1
 
 // How many NeoPixels are attached to the Arduino?
-int numPixels   = 120; // Popular NeoPixel ring size
+int numPixels   = 24; // Popular NeoPixel ring size
 
 // NeoPixel color format & data rate. See the strandtest example for
 // information on possible values.
@@ -12,18 +16,27 @@ int pixelFormat = NEO_GRB + NEO_KHZ800;
 
 // Rather than declaring the whole NeoPixel object here, we just create
 // a pointer for one, which we'll then allocate later...
-RGB *pixels;
+NeoPixel *pixels;
 
 #define DELAYVAL 500 // Time (in milliseconds) to pause between pixels
 
-void setup() {  
+void setup() {
+  // These lines are specifically to support the Adafruit Trinket 5V 16 MHz.
+  // Any other board, you can remove this part (but no harm leaving it):
+
+
+#if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
+  clock_prescale_set(clock_div_1);
+#endif
+  // END of Trinket-specific code.
+  
   // Right about here is where we could read 'pin', 'numPixels' and/or
   // 'pixelFormat' from EEPROM or a file on SD or whatever. This is a simple
   // example and doesn't do that -- those variables are just set to fixed
   // values at the top of this code -- but this is where it would happen.
 
   // Then create a new NeoPixel object dynamically with these values:
-  pixels = new RGB(numPixels, pin, pixelFormat);
+  pixels = new NeoPixel(numPixels, pin, pixelFormat);
 
   // Going forward from here, code works almost identically to any other
   // NeoPixel example, but instead of the dot operator on function calls
