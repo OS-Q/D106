@@ -2,8 +2,7 @@
 #define WS2812FX_h
 
 #define FSH(x) (__FlashStringHelper*)(x)
-
-#include <RGB.h>
+#include "NeoPixel.h"
 
 #define DEFAULT_BRIGHTNESS (uint8_t)50
 #define DEFAULT_MODE       (uint8_t)0

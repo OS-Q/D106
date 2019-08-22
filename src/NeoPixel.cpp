@@ -1,4 +1,4 @@
-#include "RGB.h"
+#include "NeoPixel.h"
 
 #ifdef TARGET_LPC1768
   #include <time.h>

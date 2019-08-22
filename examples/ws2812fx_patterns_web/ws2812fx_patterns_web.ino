@@ -5,7 +5,7 @@
 #include <EEPROM.h>
 #include <ArduinoOTA.h>
 
-#define VERSION "2.1.0"
+#define VERSION "1.0.0"
 
 uint8_t  dataPin = 5; // default digital pin used to drive the LED strip
 uint16_t numLeds = 24; // default number of LEDs on the strip

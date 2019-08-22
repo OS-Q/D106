@@ -1,43 +1,3 @@
-/*
-  WS2812FX segmented led strip web demo.
-  
-  Keith Lord - 2017
-  
-  FEATURES
-    * example of a web application to control segments of a strip of WS2812 LEDs
-
-
-  LICENSE
-
-  The MIT License (MIT)
-
-  Copyright (c) 2017  Keith Lord 
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  THE SOFTWARE.
-
-  
-  CHANGELOG
-  2017-10-02 initial version
-  2017-10-08 added web interface
-  
-*/
-
 #include <WS2812FX.h>
 #include <ESP8266WebServer.h>
 #include <ArduinoJson.h> // use ArduinoJson v5. ArduinoJson v6 will not work.
@@ -46,12 +6,10 @@
 
 extern const char index_html[];
 
-#define LED_PIN   D1 // digital pin used to drive the LED strip (esp8266)
-#define LED_COUNT 30 // number of LEDs on the strip
-
-#define WIFI_SSID "xxxxxxxx"     // WiFi network
-#define WIFI_PASSWORD "xxxxxxxx" // WiFi network password
-
+#define LED_PIN   5 // digital pin used to drive the LED strip (esp8266)
+#define LED_COUNT 24 // number of LEDs on the strip
+#define WIFI_SSID "ziroom3303"     // WiFi network
+#define WIFI_PASSWORD "4001001111" // WiFi network password
 WS2812FX ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 ESP8266WebServer server(80);
 

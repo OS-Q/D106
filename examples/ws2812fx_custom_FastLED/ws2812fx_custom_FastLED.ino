@@ -3,43 +3,11 @@
   library to create custom effects. For this example we're going to implement
   Mark Kriegsman's Fire2012 effect from the FastLED examples folder here:
   https://github.com/FastLED/FastLED/tree/master/examples/Fire2012
-
-  The basic idea is to use FastLED to create the LED color data, then
-  copy the data to the ws2812fx instance for display.
-  
-  Keith Lord - 2018
-
-  LICENSE
-
-  The MIT License (MIT)
-
-  Copyright (c) 2018  Keith Lord 
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sub-license, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  THE SOFTWARE.
-  
-  CHANGELOG
-  2018-05-13 initial version
 */
 #include "FastLED.h" // be sure to install and include the FastLED lib
 #include <WS2812FX.h>
 
-#define NUM_LEDS 30
+#define NUM_LEDS 24
 #define LED_PIN 5
 
 WS2812FX ws2812fx = WS2812FX(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
